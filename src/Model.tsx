@@ -6,7 +6,7 @@ export default function Model(props: any) {
   const {nodes, materials, animations} = useGLTF(require('../src/model.glb'));
   const {actions} = useAnimations(animations, group);
   return (
-    <group ref={group} {...props} dispose={null} scale={1}>
+    <group ref={group} {...props} dispose={null} scale={1.5}>
       <group name="Scene">
         <group name="CC3_Base_Plus" scale={0.01}>
           <skinnedMesh
