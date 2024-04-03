@@ -1,12 +1,23 @@
-import React, {useRef} from 'react';
-import {useGLTF, useAnimations} from '@react-three/drei/native';
+import React, {useRef, useEffect} from 'react';
+import {useGLTF, useAnimations, useFBX} from '@react-three/drei/native';
+import {AnimationMixer} from 'three';
 
 export default function Model(props: any) {
   const group = useRef();
-  const {nodes, materials, animations} = useGLTF(require('../src/model.glb'));
-  const {actions} = useAnimations(animations, group);
+  const animation = [];
+  const { animations: animationData } = useFBX(require('../src/animation.fbx'));
+  animationData[0].name = "Idle";
+  animation.push(animationData[0]);
+  const {nodes, materials} = useGLTF(require('../src/model.glb'));
+  const {actions} = useAnimations(animation, group);
+
+  useEffect(() => {
+   
+    actions["Idle"].play();
+  }, [actions]);
+
   return (
-    <group ref={group} {...props} dispose={null} scale={1.5}>
+    <group ref={group} {...props} dispose={null} scale={0.02}>
       <group name="Scene">
         <group name="CC3_Base_Plus" scale={0.01}>
           <skinnedMesh
